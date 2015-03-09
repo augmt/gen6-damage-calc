@@ -165,7 +165,7 @@ th {
     width: 28em;
 }
 .info-selectors select {
-    width: 8em;
+    width: 15em;
 }
 select.toxic-counter {
     width: 4.5em;
@@ -187,6 +187,17 @@ select.toxic-counter {
     width: 2.5em;
     height: 1em;
     padding: 3px 3px;
+}
+.poke-info .ev-total {
+    font-size: 0.8em;
+}
+
+.poke-info .underLimit {
+    color: #000000;
+}
+
+.poke-info .overLimit {
+    color: #CC0000;
 }
 
 /* field info */

@@ -311,6 +311,7 @@ function getDamageResult(attacker, defender, move, field) {
     }
     
     basePower = Math.max(1, pokeRound(basePower * chainMods(bpMods) / 0x1000));
+    basePower = attacker.isChild ? basePower / 2 : basePower;
     
     ////////////////////////////////
     ////////// (SP)ATTACK //////////
@@ -493,7 +494,12 @@ function getDamageResult(attacker, defender, move, field) {
     if (attacker.ability === "Tinted Lens" && typeEffectiveness < 1) {
         finalMods.push(0x2000);
         description.attackerAbility = attacker.ability;
-    } else if (attacker.ability === "Sniper" && isCritical) {
+    }
+    if (field.isFriendGuard) {
+        finalMods.push(0xC00);
+        description.isFriendGuard = true;
+    }
+    if (attacker.ability === "Sniper" && isCritical) {
         finalMods.push(0x1800);
         description.attackerAbility = attacker.ability;
     }
@@ -519,7 +525,8 @@ function getDamageResult(attacker, defender, move, field) {
     }
     var finalMod = chainMods(finalMods);
     
-    var damage = [];
+    var damage = [], pbDamage = [];
+    var child, childDamage, j;
     for (var i = 0; i < 16; i++) {
         damage[i] = Math.floor(baseDamage * (85 + i) / 100);
         damage[i] = pokeRound(damage[i] * stabMod / 0x1000);
@@ -529,14 +536,22 @@ function getDamageResult(attacker, defender, move, field) {
         }
         damage[i] = Math.max(1, damage[i]);
         damage[i] = pokeRound(damage[i] * finalMod / 0x1000);
-
-        // is 2nd hit half BP? half attack? half damage range? keeping it as a flat 1.5x until I know the specifics
         if (attacker.ability === "Parental Bond" && move.hits === 1 && (field.format === "Singles" || !move.isSpread)) {
-            damage[i] = Math.floor(damage[i] * 3/2);
+            child = JSON.parse(JSON.stringify(attacker));
+            child.ability = '';
+            child.isChild = true;
+            if (move.name === 'Power-Up Punch') {
+                child.boosts[AT]++;
+                child.stats[AT] = getModifiedStat(child.rawStats[AT], child.boosts[AT]);
+            }
+            childDamage = getDamageResult(child, defender, move, field).damage;
+            for (j = 0; j < 16; j++) {
+                pbDamage[(16 * i) + j] = damage[i] + childDamage[j];
+            }
             description.attackerAbility = attacker.ability;
         }
     }
-    return {"damage":damage, "description":buildDescription(description)};
+    return {"damage": pbDamage.length ? pbDamage.sort() : damage, "description": buildDescription(description)};
 }
 
 function buildDescription(description) {
