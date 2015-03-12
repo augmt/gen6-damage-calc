@@ -8,6 +8,11 @@ var MOVES_RBY = {
         bp: 40,
         type: 'Poison'
     },
+    'Amnesia': {
+        bp: 0,
+        type: 'Psychic',
+        category: 'Status'
+    },
     'Bind': {
         bp: 15,
         type: 'Normal'
@@ -257,6 +262,11 @@ var MOVES_GSC = $.extend(true, {}, MOVES_RBY, {
         type: 'Rock',
         category: 'Special',
         hasSecondaryEffect: true
+    },
+    'Belly Drum': {
+        bp: 0,
+        type: 'Normal',
+        category: 'Status'
     },
     'Bite': {
         bp: 60,
@@ -1183,6 +1193,11 @@ var MOVES_DPP = $.extend(true, {}, MOVES_ADV, {
         category: 'Special',
         hasSecondaryEffect: true
     },
+    'Trick Room': {
+        bp: 0,
+        type: 'Psychic',
+        category: 'Status'
+    },
     'U-turn': {
         bp: 70,
         type: 'Bug',
@@ -1637,6 +1652,11 @@ var MOVES_XY = $.extend(true, {}, MOVES_BW, {
         hasSecondaryEffect: true
     },
     'Frost Breath': { bp: 60 },
+    'Geomancy': {
+        bp: 0,
+        type: 'Fairy',
+        category: 'Status'
+    },
     'Heat Wave': { bp: 95 },
     'Hex': { bp: 65 },
     'Hidden Power Bug': { bp: 60 },
