@@ -4,14 +4,15 @@ var STATS_GSC = [AT, DF, SA, SD, SP];
 
 function CALC_HP_RBY(poke) {
     var hp = poke.find(".hp");
-    var total;
+    var total, current;
     var base = ~~hp.find(".base").val();
     var level = ~~poke.find(".level").val();
     var dvs = ~~hp.find(".dvs").val();
     total = Math.floor(((base + dvs) * 2 + 63) * level / 100) + level + 10;
     hp.find(".total").text(total);
     poke.find(".max-hp").text(total);
-    calcCurrentHP(poke, total, ~~poke.find(".percent-hp").val());
+    current = Math.ceil(~~poke.find(".percent-hp").val() * total / 100);
+    poke.find(".current-hp").val(current);
 }
 
 function CALC_STAT_RBY(poke, statName) {
@@ -25,7 +26,7 @@ function CALC_STAT_RBY(poke, statName) {
 
 function CALC_HP_ADV(poke) {
     var hp = poke.find(".hp");
-    var total;
+    var total, current;
     var base = ~~hp.find(".base").val();
     if (base === 1) {
         total = 1;
@@ -37,7 +38,8 @@ function CALC_HP_ADV(poke) {
     }
     hp.find(".total").text(total);
     poke.find(".max-hp").text(total);
-    calcCurrentHP(poke, total, ~~poke.find(".percent-hp").val());
+    current = Math.ceil(~~poke.find(".percent-hp").val() * total / 100);
+    poke.find(".current-hp").val(current);
 }
 
 function CALC_STAT_ADV(poke, statName) {
