@@ -86,7 +86,7 @@ function CALCULATE_DAMAGE_ADV(attacker, defender, move, field) {
             bp = move.bp;
     }
     
-    var isPhysical = typeChart[move.type].category === "Physical";
+    var isPhysical = TYPE_CHART_ADV[move.type].category === "Physical";
     var attackStat = isPhysical ? AT : SA;
     var defenseStat = isPhysical ? DF : SD;
     var at = attacker.rawStats[attackStat];
@@ -167,10 +167,10 @@ function CALCULATE_DAMAGE_ADV(attacker, defender, move, field) {
     if (!isCritical) {
         var screenMultiplier = field.format !== "Singles" ? (2/3) : (1/2);
         if (isPhysical && field.isReflect) {
-            baseDamage = Math.floor(baseDamage * screenMultiplier); 
+            baseDamage = Math.floor(baseDamage * screenMultiplier);
             description.isReflect = true;
         } else if (!isPhysical && field.isLightScreen) {
-            baseDamage = Math.floor(baseDamage * screenMultiplier); 
+            baseDamage = Math.floor(baseDamage * screenMultiplier);
             description.isLightScreen = true;
         }
     }

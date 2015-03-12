@@ -31,8 +31,8 @@ function CALCULATE_DAMAGE_RBY(attacker, defender, move, field) {
         return {"damage":[lv], "description":buildDescription(description)};
     }
 
-    var typeEffect1 = typeChart[move.type][defender.type1];
-    var typeEffect2 = defender.type2 ? typeChart[move.type][defender.type2] : 1;
+    var typeEffect1 = TYPE_CHART_RBY[move.type][defender.type1];
+    var typeEffect2 = defender.type2 ? TYPE_CHART_RBY[move.type][defender.type2] : 1;
     var typeEffectiveness = typeEffect1 * typeEffect2;
     
     if (typeEffectiveness === 0) {
@@ -43,7 +43,7 @@ function CALCULATE_DAMAGE_RBY(attacker, defender, move, field) {
         description.hits = move.hits;
     }
     
-    var isPhysical = typeChart[move.type].category === "Physical";
+    var isPhysical = TYPE_CHART_RBY[move.type].category === "Physical";
     var attackStat = isPhysical ? AT : SL;
     var defenseStat = isPhysical ? DF : SL;
     var at = attacker.stats[attackStat];

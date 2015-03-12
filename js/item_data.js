@@ -346,6 +346,7 @@ function getNaturalGift(item) {
         'Watmel Berry' : {'t':'Fire','p':100},
         'Yache Berry' : {'t':'Ice','p':80}
     }[item];
+    var gen = parseInt($('.gen:checked').val(), 10);
     if (gift) {
         if (gen < 6) {
             gift.p -= 20;

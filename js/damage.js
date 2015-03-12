@@ -32,6 +32,7 @@ function CALCULATE_ALL_MOVES_BW(p1, p2, field) {
 }
 
 function getDamageResult(attacker, defender, move, field) {
+    var gen = parseInt($('.gen:checked').val(), 10);
     var description = {
         "attackerName": attacker.name,
         "moveName": move.name,
@@ -85,8 +86,8 @@ function getDamageResult(attacker, defender, move, field) {
         description.attackerAbility = attacker.ability;
     }
     
-    var typeEffect1 = getMoveEffectiveness(move, defender.type1, attacker.ability === "Scrappy" || field.isForesight, field.isGravity);
-    var typeEffect2 = defender.type2 ? getMoveEffectiveness(move, defender.type2, attacker.ability === "Scrappy" || field.isForesight, field.isGravity) : 1;
+    var typeEffect1 = getMoveEffectiveness(move, defender.type1, attacker.ability === "Scrappy" || field.isForesight, field.isGravity, gen);
+    var typeEffect2 = defender.type2 ? getMoveEffectiveness(move, defender.type2, attacker.ability === "Scrappy" || field.isForesight, field.isGravity, gen) : 1;
     var typeEffectiveness = typeEffect1 * typeEffect2;
     
     if (typeEffectiveness === 0) {
@@ -438,7 +439,7 @@ function getDamageResult(attacker, defender, move, field) {
         description.weather = field.weather;
     } else if ((field.weather === "Sun" && move.type === "Water") || (field.weather === "Rain" && move.type === "Fire") ||
                (field.weather === "Strong Winds" && (defender.type1 === "Flying" || defender.type2 === "Flying") &&
-               typeChart[move.type]["Flying"] > 1)) {
+               TYPE_CHART_XY[move.type]["Flying"] > 1)) {
         baseDamage = pokeRound(baseDamage * 0x800 / 0x1000);
         description.weather = field.weather;
     }
@@ -624,7 +625,7 @@ function chainMods(mods) {
     return M;
 }
 
-function getMoveEffectiveness(move, type, isGhostRevealed, isGravity) {
+function getMoveEffectiveness(move, type, isGhostRevealed, isGravity, gen) {
     if (isGhostRevealed && type === "Ghost" && (move.type === "Normal" || move.type === "Fighting")) {
         return 1;
     } else if (isGravity && type === "Flying" && move.type === "Ground") {
@@ -632,9 +633,9 @@ function getMoveEffectiveness(move, type, isGhostRevealed, isGravity) {
     } else if (move.name === "Freeze-Dry" && type === "Water") {
         return 2;
     } else if (move.name === "Flying Press") {
-        return typeChart["Fighting"][type] * typeChart["Flying"][type];
+        return TYPE_CHART_XY["Fighting"][type] * TYPE_CHART_XY["Flying"][type];
     } else {
-        return typeChart[move.type][type];
+        return gen >= 6 ? TYPE_CHART_XY[move.type][type] : TYPE_CHART_ADV[move.type][type];
     }
 }
 
@@ -713,6 +714,7 @@ function checkInfiltrator(attacker, affectedSide) {
 }
 
 function countBoosts(boosts) {
+    var STATS = ["at", "df", "sa", "sd", "sp"];
     var sum = 0;
     for (var i = 0; i < STATS.length; i++) {
         if (boosts[STATS[i]] > 0) {

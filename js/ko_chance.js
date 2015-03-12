@@ -14,9 +14,12 @@ function getKOChanceText(damage, move, defender, field, isBadDreams) {
         return 'guaranteed OHKO';
     }
 
+    var gen = parseInt($('.gen:checked').val(), 10);
+    var typeChart;
     var hazards = 0;
     var hazardText = [];
     if (field.isSR && defender.ability !== 'Magic Guard') {
+        typeChart = gen === 6 ? TYPE_CHART_XY : TYPE_CHART_ADV;
         var effectiveness = typeChart['Rock'][defender.type1] * (defender.type2 ? typeChart['Rock'][defender.type2] : 1);
         hazards += Math.floor(effectiveness * defender.maxHP / 8);
         hazardText.push('Stealth Rock');
@@ -129,7 +132,7 @@ function getKOChanceText(damage, move, defender, field, isBadDreams) {
     var qualifier = '';
     if (move.hits > 1) {
         qualifier = 'approx. ';
-        damage = squashMultihit(damage, move.hits);
+        damage = squashMultihit(damage, move.hits, gen);
     }
 
     var c = getKOChance(damage, defender.curHP - hazards, 0, 1, defender.maxHP, toxicCounter);
@@ -211,7 +214,7 @@ function predictTotal(damage, eot, hits, toxicCounter, maxHP) {
     return total;
 }
 
-function squashMultihit(d, hits) {
+function squashMultihit(d, hits, gen) {
     if (d.length === 1) {
         return [d[0] * hits];
     } else if (gen === 1) {

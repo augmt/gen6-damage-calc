@@ -53,7 +53,7 @@ function CALCULATE_DAMAGE_GSC(attacker, defender, move, field) {
         description.moveBP = move.bp;
     }
     
-    var isPhysical = typeChart[move.type].category === "Physical";
+    var isPhysical = TYPE_CHART_GSC[move.type].category === "Physical";
     var attackStat = isPhysical ? AT : SA;
     var defenseStat = isPhysical ? DF : SD;
     var at = attacker.stats[attackStat];
