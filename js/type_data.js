@@ -278,63 +278,77 @@ var TYPE_CHART_GSC = $.extend(true, {}, TYPE_CHART_RBY, {
     },
     Grass: {
         Dark: 1,
-        Steel: 0.5
+        Steel: 0.5,
+        HPivs: {'hp':30, 'at':26, 'df':26, 'sa':30, 'sd':30, 'sp':30}
     },
     Fire: {
         Dark: 1,
-        Steel: 2
+        Steel: 2,
+        HPivs: {'hp':6, 'at':28, 'df':24, 'sa':30, 'sd':30, 'sp':30}
     },
     Water: {
         Dark: 1,
-        Steel: 1
+        Steel: 1,
+        HPivs: {'hp':14, 'at':28, 'df':26, 'sa':30, 'sd':30, 'sp':30}
     },
     Electric: {
         Dark: 1,
-        Steel: 1
+        Steel: 1,
+        HPivs: {'hp':14, 'at':28, 'df':30, 'sa':30, 'sd':30, 'sp':30}
     },
     Ice: {
         Fire: 0.5,
         Dark: 1,
-        Steel: 0.5
+        Steel: 0.5,
+        HPivs: {'hp':30, 'at':30, 'df':26, 'sa':30, 'sd':30, 'sp':30}
     },
     Flying: {
         Dark: 1,
-        Steel: 0.5
+        Steel: 0.5,
+        HPivs: {'hp':14, 'at':24, 'df':26, 'sa':30, 'sd':30, 'sp':30}
     },
     Bug: {
         Poison: 0.5,
         Dark: 2,
-        Steel: 0.5
+        Steel: 0.5,
+        HPivs: {'hp':30, 'at':26, 'df':26, 'sa':30, 'sd':30, 'sp':30}
     },
     Poison: {
         Bug: 1,
         Dark: 1,
-        Steel: 0
+        Steel: 0,
+        HPivs: {'hp':6, 'at':24, 'df':28, 'sa':30, 'sd':30, 'sp':30}
     },
     Ground: {
         Dark: 1,
-        Steel: 2
+        Steel: 2,
+        HPivs: {'hp':14, 'at':24, 'df':30, 'sa':30, 'sd':30, 'sp':30}
     },
     Rock: {
         Dark: 1,
-        Steel: 0.5
+        Steel: 0.5,
+        HPivs: {'hp':22, 'at':26, 'df':24, 'sa':30, 'sd':30, 'sp':30}
     },
     Fighting: {
         Dark: 2,
-        Steel: 2
+        Steel: 2,
+        HPivs: {'hp':6, 'at':24, 'df':24, 'sa':30, 'sd':30, 'sp':30}
     },
     Psychic: {
         Dark: 0,
-        Steel: 0.5
+        Steel: 0.5,
+        HPivs: {'hp':22, 'at':30, 'df':24, 'sa':30, 'sd':30, 'sp':30}
     },
     Ghost: {
         Psychic: 2,
         Dark: 0.5,
-        Steel: 0.5
+        Steel: 0.5,
+        HPivs: {'hp':22, 'at':26, 'df':28, 'sa':30, 'sd':30, 'sp':30}
     },
     Dragon: {
         Dark: 1,
-        Steel: 0.5
+        Steel: 0.5,
+        HPivs: {'hp':22, 'at':30, 'df':28, 'sa':30, 'sd':30, 'sp':30}
     },
     Dark: {
         category: 'Special',
@@ -354,7 +368,8 @@ var TYPE_CHART_GSC = $.extend(true, {}, TYPE_CHART_RBY, {
         Ghost: 2,
         Dragon: 1,
         Dark: 0.5,
-        Steel: 0.5
+        Steel: 0.5,
+        HPivs: {'hp':30, 'at':30, 'df':30, 'sa':30, 'sd':30, 'sp':30}
     },
     Steel: {
         category: 'Physical',
@@ -374,11 +389,32 @@ var TYPE_CHART_GSC = $.extend(true, {}, TYPE_CHART_RBY, {
         Ghost: 1,
         Dragon: 1,
         Dark: 1,
-        Steel: 0.5
+        Steel: 0.5,
+        HPivs: {'hp':30, 'at':26, 'df':30, 'sa':30, 'sd':30, 'sp':30}
     }
 });
 
-var TYPE_CHART_XY = $.extend(true, {}, TYPE_CHART_GSC, {
+var TYPE_CHART_ADV = $.extend(true, {}, TYPE_CHART_GSC, {
+    Normal: {},
+    Grass: {HPivs: {'hp': 31, 'at': 30, 'df': 31, 'sa': 30, 'sd': 31, 'sp': 31}},
+    Fire: {HPivs: {'hp': 31, 'at': 30, 'df': 31, 'sa': 30, 'sd': 31, 'sp': 30}},
+    Water: {HPivs: {'hp': 31, 'at': 30, 'df': 30, 'sa': 30, 'sd': 31, 'sp': 31}},
+    Electric: {HPivs: {'hp': 31, 'at': 31, 'df': 31, 'sa': 30, 'sd': 31, 'sp': 31}},
+    Ice: {HPivs: {'hp': 31, 'at': 30, 'df': 30, 'sa': 31, 'sd': 31, 'sp': 31}},
+    Flying: {HPivs: {'hp': 30, 'at': 30, 'df': 30, 'sa': 30, 'sd': 30, 'sp': 31}},
+    Bug: {HPivs: {'hp': 31, 'at': 30, 'df': 30, 'sa': 31, 'sd': 30, 'sp': 31}},
+    Poison: {HPivs: {'hp': 31, 'at': 31, 'df': 30, 'sa': 30, 'sd': 30, 'sp': 31}},
+    Ground: {HPivs: {'hp': 31, 'at': 31, 'df': 31, 'sa': 30, 'sd': 30, 'sp': 31}},
+    Rock: {HPivs: {'hp': 31, 'at': 31, 'df': 30, 'sa': 31, 'sd': 30, 'sp': 30}},
+    Fighting: {HPivs: {'hp': 31, 'at': 31, 'df': 30, 'sa': 30, 'sd': 30, 'sp': 30}},
+    Psychic: {HPivs: {'hp': 31, 'at': 30, 'df': 31, 'sa': 31, 'sd': 31, 'sp': 30}},
+    Ghost: {HPivs: {'hp': 31, 'at': 31, 'df': 30, 'sa': 31, 'sd': 30, 'sp': 31}},
+    Dragon: {HPivs: {'hp': 31, 'at': 30, 'df': 31, 'sa': 31, 'sd': 31, 'sp': 31}},
+    Dark: {HPivs: {'hp': 31, 'at': 31, 'df': 31, 'sa': 31, 'sd': 31, 'sp': 31}},
+    Steel: {HPivs: {'hp': 31, 'at': 31, 'df': 31, 'sa': 31, 'sd': 30, 'sp': 31}}
+});
+
+var TYPE_CHART_XY = $.extend(true, {}, TYPE_CHART_ADV, {
     Normal: {
         Fairy: 1
     },

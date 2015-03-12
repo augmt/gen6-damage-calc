@@ -125,10 +125,67 @@ $(".status").bind("keyup change", function () {
     }
 });
 
+function setHiddenPowerIVs(type, pokeObj) {
+    var iv;
+    var HPIVs = typeChart[type].HPivs;
+    for (iv in HPIVs) {
+        if (HPIVs.hasOwnProperty(iv)) {
+            pokeObj.find('.' + iv + ' .ivs').val(HPIVs[iv]);
+        }
+    }
+    calcHP(pokeObj);
+    calcStats(pokeObj);
+}
+
+function setHiddenPowerDVs(type, pokeObj) {
+    var dv;
+    var HPDVs = typeChart[type].HPivs; // HPivs is not a typo
+    for (dv in HPDVs) {
+        if (HPDVs.hasOwnProperty(dv)) {
+            pokeObj.find('.' + dv + ' .dvs').val(HPDVs[dv] / 2);
+        }
+    }
+    calcHP(pokeObj);
+    calcStats(pokeObj);
+}
+
+// auto-update move details on select
 $(".move-selector").change(function () {
     var moveName = $(this).val();
     var move = moves[moveName] || moves['(No Move)'];
     var moveGroupObj = $(this).parent();
+    var pokeObj, selectedMoves, previousMoveName, index, HPType;
+    if (gen > 1) {
+        pokeObj = $(this).closest('.poke-info');
+        selectedMoves = pokeObj.find('.move-selector .select2-chosen')
+                        .map(function () { return $(this).text(); })
+                        .toArray().join(',');
+        previousMoveName = $(this).data('move-name');
+        if (moveName.indexOf('Hidden Power') > -1) {
+            if (gen !== 2) {
+                setHiddenPowerIVs(move.type, pokeObj);
+            } else {
+                setHiddenPowerDVs(move.type, pokeObj);
+            }
+        } else if (previousMoveName.indexOf('Hidden Power') > -1) {
+            if (selectedMoves.indexOf('Hidden Power') > -1) {
+                index = selectedMoves.indexOf('Hidden Power') + 13;
+                HPType = selectedMoves.substr(index, selectedMoves.length - index).split(',')[0];
+                if (gen !== 2) {
+                    setHiddenPowerIVs(HPType, pokeObj);
+                } else {
+                    setHiddenPowerDVs(HPType, pokeObj);
+                }
+            } else {
+                if (gen !== 2) {
+                    setHiddenPowerIVs('Dark', pokeObj);
+                } else {
+                    setHiddenPowerDVs('Dark', pokeObj);
+                }
+            }
+        }
+        $(this).data('move-name', $(this).val());
+    }
     moveGroupObj.children(".move-bp").val(move.bp);
     moveGroupObj.children(".move-type").val(move.type);
     moveGroupObj.children(".move-cat").val(move.category);
@@ -304,6 +361,7 @@ function setSelectValueIfValid(select, value, fallback) {
     select.val(select.children("option[value='" + value + "']").length !== 0 ? value : fallback);
 }
 
+// auto-update set details on select
 $(".set-selector").change(function () {
     var fullSetName = $(this).val();
     var pokemonName = fullSetName.substring(0, fullSetName.indexOf(" ("));
@@ -527,6 +585,7 @@ $(".gen").change(function () {
     $("select.ability").find("option").remove().end().append("<option value=\"\">(other)</option>" + abilityOptions);
     $("select.item").find("option").remove().end().append("<option value=\"\">(none)</option>" + itemOptions);
     $(".set-selector").val(getSetOptions()[gen > 3 ? 1 : gen === 1 ? 5 : 3].id);
+    $('.move-selector').data('move-name', $('.move-selector').val());
     $(".set-selector").change();
 });
 
