@@ -7,7 +7,7 @@
         <link href="css/ap_calc.css" rel="stylesheet"/>
     </head>
     <body>
-        <div>
+        <div class="relative">
             <span class="title-text">Pokemon Damage Calculator</span>
             <span title="Select the generation.">
                 <input class="gen btn-input" type="radio" name="gen" value="1" id="gen1" /><label class="btn btn-small btn-left" for="gen1">RBY</label>
@@ -17,6 +17,7 @@
                 <input class="gen btn-input" type="radio" name="gen" value="5" id="gen5" /><label class="btn btn-small btn-mid" for="gen5">B/W</label>
                 <input class="gen btn-input" type="radio" name="gen" value="6" id="gen6" checked="checked" /><label class="btn btn-small btn-right" for="gen6">X/Y</label>
             </span>
+            <select class="mode btn" title="Select the calculator's mode of function."><option value="one-vs-one" selected>One vs One</option><option value="one-vs-all">One vs All</option><option value="all-vs-one">All vs One</option><option value="randbats">RandBats</option></select>
         </div>
         <hr />
         <div class="move-result-group" title="Select a move to show detailed results.">

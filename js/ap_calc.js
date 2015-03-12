@@ -1,3 +1,7 @@
+$(".mode").change(function () {
+    window.location.replace($(this).val() + ".html");
+});
+
 function validate(obj, min, max) {
     // use the double tilde (~~) to convert obj.val() to an integer or return 0 if obj.val() is non-numeric
     obj.val(Math.max(min, Math.min(max, ~~obj.val())));

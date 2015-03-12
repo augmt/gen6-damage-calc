@@ -3,7 +3,7 @@ body {
     font: 10pt Verdana, sans-serif;
     background-color: #bbeedd;
     padding: 0 1em;
-    min-width: 100em;
+    min-width: 91.8em;
 }
 fieldset {
     float: left;
@@ -124,6 +124,15 @@ th {
 }
 
 /* header */
+.relative {
+    position: relative;
+}
+.mode {
+    position: absolute;
+    right: 0;
+    width: 8.27em;
+}
+
 .move-result-group {
     max-width: 80em;
     min-width: 50em;
