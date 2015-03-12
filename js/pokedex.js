@@ -9549,7 +9549,7 @@ var POKEDEX_XY = $.extend(true, {}, POKEDEX_BW, {
     },
     "w": 0.9
   },
-  "Floette-E": {
+  "Floette-Eternal-Flower": {
     "t1": "Fairy",
     "bs": {
       "hp": 74,
@@ -9712,6 +9712,20 @@ var POKEDEX_XY = $.extend(true, {}, POKEDEX_BW, {
     },
     "w": 40.0
   },
+  "Groudon-Primal": {
+    "t1": "Ground",
+    "t2": "Fire",
+    "bs": {
+      "hp": 100,
+      "at": 180,
+      "df": 160,
+      "sa": 150,
+      "sd": 90,
+      "sp": 90
+    },
+    "w": 999.7,
+    "ab": "Desolate Land"
+  },
   "Hawlucha": {
     "t1": "Fighting",
     "t2": "Flying",
@@ -9818,6 +9832,19 @@ var POKEDEX_XY = $.extend(true, {}, POKEDEX_BW, {
       "sp": 75
     },
     "w": 3.0
+  },
+  "Kyogre-Primal": {
+    "t1": "Water",
+    "bs": {
+      "hp": 100,
+      "at": 150,
+      "df": 90,
+      "sa": 180,
+      "sd": 160,
+      "sp": 90
+    },
+    "w": 430.0,
+    "ab": "Primordial Sea"
   },
   "Litleo": {
     "t1": "Fire",
@@ -9985,7 +10012,7 @@ var POKEDEX_XY = $.extend(true, {}, POKEDEX_BW, {
       "df": 40,
       "sa": 15,
       "sd": 80,
-      "sp": 145,
+      "sp": 145
     },
     "w": 40.5,
     "ab": "Adaptability",
@@ -10568,6 +10595,18 @@ var POKEDEX_XY = $.extend(true, {}, POKEDEX_BW, {
     },
     "w": 8.5
   },
+  "Meowstic-F": {
+    "t1": "Psychic",
+    "bs": {
+      "hp": 74,
+      "at": 48,
+      "df": 76,
+      "sa": 83,
+      "sd": 81,
+      "sp": 104
+    },
+    "w": 8.5
+  },
   "Noibat": {
     "t1": "Flying",
     "t2": "Dragon",
@@ -10631,33 +10670,6 @@ var POKEDEX_XY = $.extend(true, {}, POKEDEX_BW, {
       "sp": 38
     },
     "w": 7.0
-  },
-  "Primal Groudon": {
-    "t1": "Ground",
-    "t2": "Fire",
-    "bs": {
-      "hp": 100,
-      "at": 180,
-      "df": 160,
-      "sa": 150,
-      "sd": 90,
-      "sp": 90
-    },
-    "w": 999.7,
-    "ab": "Desolate Land"
-  },
-  "Primal Kyogre": {
-    "t1": "Water",
-    "bs": {
-      "hp": 100,
-      "at": 150,
-      "df": 90,
-      "sa": 180,
-      "sd": 160,
-      "sp": 90
-    },
-    "w": 430.0,
-    "ab": "Primordial Sea"
   },
   "Pumpkaboo-Average": {
     "t1": "Ghost",
@@ -10882,8 +10894,7 @@ var POKEDEX_XY = $.extend(true, {}, POKEDEX_BW, {
       "sd": 59,
       "sp": 71
     },
-    "w": 270.0,
-    "ab": "Strong Jaw"
+    "w": 270.0
   },
   "Tyrunt": {
     "t1": "Rock",
@@ -10896,8 +10907,7 @@ var POKEDEX_XY = $.extend(true, {}, POKEDEX_BW, {
       "sd": 45,
       "sp": 48
     },
-    "w": 26.0,
-    "ab": "Strong Jaw"
+    "w": 26.0
   },
   "Vivillon": {
     "t1": "Bug",
@@ -10969,6 +10979,15 @@ var POKEDEX_XY = $.extend(true, {}, POKEDEX_BW, {
   }
 });
 
+delete POKEDEX_XY['Chikorita'].ab;
+delete POKEDEX_XY['Bayleef'].ab;
+delete POKEDEX_XY['Meganium'].ab;
+delete POKEDEX_XY['Cyndaquil'].ab;
+delete POKEDEX_XY['Quilava'].ab;
+delete POKEDEX_XY['Typhlosion'].ab;
+delete POKEDEX_XY['Totodile'].ab;
+delete POKEDEX_XY['Croconaw'].ab;
+delete POKEDEX_XY['Feraligatr'].ab;
 delete POKEDEX_XY['Duskull'].ab;
 delete POKEDEX_XY['Snivy'].ab;
 delete POKEDEX_XY['Servine'].ab;
