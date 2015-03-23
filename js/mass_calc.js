@@ -539,6 +539,11 @@ function initDataTable() {
                 }
             ],
             dom: 'ft',
+            drawCallback: function () {
+                if (parseInt($('#myTable').css('margin-left'), 10) > 0 || $('#myTable').position().left > 0) {
+                    $('.dataTable').width($('.dataTables_scrollBody').width());
+                }
+            },
             order: [1, 'asc'],
             paging: false,
             scrollCollapse: true,
@@ -946,9 +951,6 @@ $(".calc-button").click(function () {
     $("#myTable").DataTable().clear().draw();
     if (tiers.length > 0) {
         mass_calculate(tiers);
-        if (parseInt($('#myTable').css('margin-left'), 10) > 0 || $('#myTable').position().left > 0) {
-            $('.dataTable').width($('.dataTables_scrollBody').width());
-        }
     }
 });
 
