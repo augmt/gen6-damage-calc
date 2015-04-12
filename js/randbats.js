@@ -464,13 +464,13 @@ $(".set-selector").change(function () {
         var itemObj = pokeObj.find(".item");
         if (randdex[pokemonName] && randdex[pokemonName][setName]) {
             var set = randdex[pokemonName][setName];
-            pokeObj.find(".level").val(set.level).prop("disabled", true);
+            pokeObj.find(".level").val(set.level);
             pokeObj.find(".hp .evs").val((gen > 2) ? set.evs.hp : 0);
             for (i = 0; i < STATS.length; i++) {
                 pokeObj.find("." + STATS[i] + " .evs").val((gen > 2) ? set.evs[STATS[i]] : 0);
             }
         } else {
-            pokeObj.find(".level").val(100).prop("disabled", false);
+            pokeObj.find(".level").val(100);
             pokeObj.find(".hp .evs").val(0);
             for (i = 0; i < STATS.length; i++) {
                 pokeObj.find("." + STATS[i] + " .evs").val(0);
