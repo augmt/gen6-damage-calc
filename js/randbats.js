@@ -159,7 +159,7 @@ function setEVsAndIVs(moveObj, move, moveName, fullSetName, previousMoveCategory
     // set Hidden Power IVs
     if (moveName.indexOf('Hidden Power') > -1) {
         setHiddenPowerIVs(move.type, selectedMoves, pokeObj);
-    } else if (previousMoveName.indexOf('Hidden Power') > -1) {
+    } else if (previousMoveName && previousMoveName.indexOf('Hidden Power') > -1) {
         if (selectedMoves.indexOf('Hidden Power') > -1) {
             index = selectedMoves.lastIndexOf('Hidden Power') + 13;
             HPType = selectedMoves.substr(index, selectedMoves.length - index).split(',')[0];
@@ -486,6 +486,7 @@ $(".set-selector").change(function () {
         itemObj.val("");
         for (i = 0; i < 4; i++) {
             moveObj = pokeObj.find(".move" + (i + 1) + " select.move-selector");
+            moveObj.removeData("move-name");
             moveObj.val("(No Move)");
             moveObj.change();
         }
@@ -596,7 +597,6 @@ $(".gen").change(function () {
     $("select.ability").find("option").remove().end().append("<option value=\"\">(other)</option>" + abilityOptions);
     $("select.item").find("option").remove().end().append("<option value=\"\">(none)</option>" + itemOptions);
     $(".set-selector").val(getSetOptions()[1].id);
-    $('.move-selector').data('move-name', $('.move-selector').val());
     $(".set-selector").change();
 });
 
