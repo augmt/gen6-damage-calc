@@ -532,7 +532,7 @@ $(".gen").change(function () {
     case 3:
         pokedex = POKEDEX_ADV;
         setdex = SETDEX_ADV;
-        typeChart = TYPE_CHART_GSC;
+        typeChart = TYPE_CHART_ADV;
         moves = MOVES_ADV;
         items = ITEMS_ADV;
         abilities = ABILITIES_ADV;
@@ -544,7 +544,7 @@ $(".gen").change(function () {
     case 4:
         pokedex = POKEDEX_DPP;
         setdex = SETDEX_DPP;
-        typeChart = TYPE_CHART_GSC;
+        typeChart = TYPE_CHART_ADV;
         moves = MOVES_DPP;
         items = ITEMS_DPP;
         abilities = ABILITIES_DPP;
@@ -556,7 +556,7 @@ $(".gen").change(function () {
     case 5:
         pokedex = POKEDEX_BW;
         setdex = SETDEX_BW;
-        typeChart = TYPE_CHART_GSC;
+        typeChart = TYPE_CHART_ADV;
         moves = MOVES_BW;
         items = ITEMS_BW;
         abilities = ABILITIES_BW;
