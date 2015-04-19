@@ -537,6 +537,16 @@ function getDamageResult(attacker, defender, move, field) {
             description.attackerAbility = attacker.ability;
         }
     }
+
+    if (move.willModifyStats && attacker.boosts[AT] < 6) {
+        var attackerDC = JSON.parse(JSON.stringify(attacker));
+        attackerDC.boosts[AT]++;
+        attackerDC.stats[AT] = getModifiedStat(attackerDC.rawStats[AT], attackerDC.boosts[AT]);
+        if (attackerDC.boosts[AT] > 6) {
+            return getDamageResult(attackerDC, defender, move, field);
+        }
+        return [{"damage": damage, "description": buildDescription(description)}].concat(getDamageResult(attackerDC, defender, move, field));
+    }
     return {"damage":damage, "description":buildDescription(description)};
 }
 
