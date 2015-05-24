@@ -411,6 +411,10 @@ function CALCULATE_DAMAGE_DPP(attacker, defender, move, field) {
         damage[i] = Math.floor(damage[i] * berryMod);
         damage[i] = Math.max(1, damage[i]);
     }
+    if (move.modifies && ((["at", "sa"].indexOf(move.modifies) > -1 && Math.abs(attacker.boosts[move.modifies]) < 6) ||
+            (["df", "sd"].indexOf(move.modifies) > -1 && Math.abs(defender.boosts[move.modifies]) < 6))) {
+        return [{"damage": damage, "description": buildDescription(description)}].concat(getModifiedDamage(attacker, defender, move, field, CALCULATE_DAMAGE_DPP));
+    }
     return {"damage":damage, "description":buildDescription(description)};
 }
 

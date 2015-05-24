@@ -538,14 +538,9 @@ function getDamageResult(attacker, defender, move, field) {
         }
     }
 
-    if (move.willModifyStats && attacker.boosts[AT] < 6) {
-        var attackerDC = JSON.parse(JSON.stringify(attacker));
-        attackerDC.boosts[AT]++;
-        attackerDC.stats[AT] = getModifiedStat(attackerDC.rawStats[AT], attackerDC.boosts[AT]);
-        if (attackerDC.boosts[AT] > 6) {
-            return getDamageResult(attackerDC, defender, move, field);
-        }
-        return [{"damage": damage, "description": buildDescription(description)}].concat(getDamageResult(attackerDC, defender, move, field));
+    if (move.modifies && ((["at", "sa"].indexOf(move.modifies) > -1 && Math.abs(attacker.boosts[move.modifies]) < 6) ||
+            (["df", "sd"].indexOf(move.modifies) > -1 && Math.abs(defender.boosts[move.modifies]) < 6))) {
+        return [{"damage": damage, "description": buildDescription(description)}].concat(getModifiedDamage(attacker, defender, move, field, getDamageResult));
     }
     return {"damage":damage, "description":buildDescription(description)};
 }
@@ -647,6 +642,33 @@ function getMoveEffectiveness(move, type, isGhostRevealed, isGravity, gen) {
     } else {
         return gen >= 6 ? TYPE_CHART_XY[move.type][type] : TYPE_CHART_ADV[move.type][type];
     }
+}
+
+function getModifiedDamage(attacker, defender, move, field, callback) {
+    var attackerCopy, defenderCopy;
+    if (move.name === "Acid Spray") {
+        defenderCopy = JSON.parse(JSON.stringify(defender));
+        attackerCopy = attacker;
+    } else {
+        attackerCopy = JSON.parse(JSON.stringify(attacker));
+        defenderCopy = defender;
+    }
+
+    if (move.name === "Superpower") {
+        attackerCopy.boosts[AT]--;
+        attackerCopy.stats[AT] = getModifiedStat(attackerCopy.rawStats[AT], attackerCopy.boosts[AT]);
+    } else if (move.name === "Acid Spray") {
+        defenderCopy.boosts[SD] -= 2;
+        defenderCopy.stats[SD] = getModifiedStat(defenderCopy.rawStats[SD], defenderCopy.boosts[SD]);
+    } else if (move.name === "Power-Up Punch") {
+        attackerCopy.boosts[AT]++;
+        attackerCopy.stats[AT] = getModifiedStat(attackerCopy.rawStats[AT], attackerCopy.boosts[AT]);
+    } else {
+        attackerCopy.boosts[SA] -= 2;
+        attackerCopy.stats[SA] = getModifiedStat(attackerCopy.rawStats[SA], attackerCopy.boosts[SA]);
+    }
+
+    return callback(attackerCopy, defenderCopy, move, field);
 }
 
 function getModifiedStat(stat, mod) {

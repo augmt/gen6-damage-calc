@@ -11,8 +11,7 @@ var MOVES_RBY = {
     'Amnesia': {
         bp: 0,
         category: 'Status',
-        type: 'Psychic',
-        willModifyStats: true
+        type: 'Psychic'
     },
     'Bind': {
         bp: 15,
@@ -267,8 +266,7 @@ var MOVES_GSC = $.extend(true, {}, MOVES_RBY, {
     'Belly Drum': {
         bp: 0,
         category: 'Status',
-        type: 'Normal',
-        willModifyStats: true
+        type: 'Normal'
     },
     'Bite': {
         bp: 60,
@@ -661,7 +659,7 @@ var MOVES_ADV = $.extend(true, {}, MOVES_GSC, {
         bp: 140,
         category: 'Special',
         type: 'Fire',
-        willModifyStats: true
+        modifies: 'sa'
     },
     'Poison Fang': {
         bp: 50,
@@ -675,7 +673,7 @@ var MOVES_ADV = $.extend(true, {}, MOVES_GSC, {
         bp: 140,
         category: 'Special',
         type: 'Psychic',
-        willModifyStats: true
+        modifies: 'sa'
     },
     'Revenge': {
         bp: 120,
@@ -732,7 +730,7 @@ var MOVES_ADV = $.extend(true, {}, MOVES_GSC, {
         category: 'Physical',
         makesContact: true,
         type: 'Fighting',
-        willModifyStats: true
+        modifies: 'at'
     },
     'Volt Tackle': {
         bp: 120,
@@ -882,7 +880,7 @@ var MOVES_DPP = $.extend(true, {}, MOVES_ADV, {
         bp: 140,
         category: 'Special',
         type: 'Dragon',
-        willModifyStats: true
+        modifies: 'sa'
     },
     'Dragon Pulse': {
         bp: 90,
@@ -1055,7 +1053,7 @@ var MOVES_DPP = $.extend(true, {}, MOVES_ADV, {
         bp: 140,
         category: 'Special',
         type: 'Grass',
-        willModifyStats: true
+        modifies: 'sa'
     },
     'Magma Storm': {
         bp: 120,
@@ -1268,7 +1266,7 @@ var MOVES_BW = $.extend(true, {}, MOVES_DPP, {
         hasSecondaryEffect: true,
         isBullet: true,
         type: 'Poison',
-        willModifyStats: true
+        modifies: 'sd'
     },
     'Acrobatics': {
         bp: 55,
@@ -1670,8 +1668,7 @@ var MOVES_XY = $.extend(true, {}, MOVES_BW, {
     'Geomancy': {
         bp: 0,
         category: 'Status',
-        type: 'Fairy',
-        willModifyStats: true
+        type: 'Fairy'
     },
     'Heat Wave': { bp: 95 },
     'Hex': { bp: 65 },
@@ -1760,7 +1757,7 @@ var MOVES_XY = $.extend(true, {}, MOVES_BW, {
         isPunch: true,
         makesContact: true,
         type: 'Fighting',
-        willModifyStats: true
+        modifies: 'at'
     },
     'Precipice Blades': {
         bp: 120,

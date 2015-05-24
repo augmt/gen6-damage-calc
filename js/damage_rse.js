@@ -221,5 +221,9 @@ function CALCULATE_DAMAGE_ADV(attacker, defender, move, field) {
     for (var i = 85; i <= 100; i++) {
         damage[i-85] = Math.max(1, Math.floor(baseDamage * i / 100));
     }
+    if (move.modifies && ((["at", "sa"].indexOf(move.modifies) > -1 && Math.abs(attacker.boosts[move.modifies]) < 6) ||
+            (["df", "sd"].indexOf(move.modifies) > -1 && Math.abs(defender.boosts[move.modifies]) < 6))) {
+        return [{"damage": damage, "description": buildDescription(description)}].concat(getModifiedDamage(attacker, defender, move, field, CALCULATE_DAMAGE_ADV));
+    }
     return {"damage":damage, "description":buildDescription(description)};
 }

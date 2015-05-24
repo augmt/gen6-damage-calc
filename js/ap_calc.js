@@ -654,7 +654,10 @@ function findDamageResult(resultMoveObj) {
 $(".result-move").change(function () {
     if (damageResults) {
         var result = findDamageResult($(this));
-        if (result) {
+        if (typeof result.damage === "undefined") {
+            $("#mainResult").text(result[0].description + ": " + result.damageText + " -- " + result.koChanceText);
+            $("#damageValues").text("(" + result[0].damage.join(", ") + ")");
+        } else {
             $("#mainResult").text(result.description + ": " + result.damageText + " -- " + result.koChanceText);
             $("#damageValues").text("(" + result.damage.join(", ") + ")");
         }
@@ -759,18 +762,17 @@ function calculate() {
     var bestResult;
     for (var i = 0; i < 4; i++) {
         result = damageResults[0][i];
-        damageRange = result[0] === undefined ? result.damage : result[0].damage;
+        damageRange = result.damage || result[0].damage;
         minDamage = damageRange[0] * p1.moves[i].hits;
         maxDamage = damageRange[damageRange.length - 1] * p1.moves[i].hits;
         minPercent = Math.floor(minDamage * 1000 / p2.maxHP) / 10;
         maxPercent = Math.floor(maxDamage * 1000 / p2.maxHP) / 10;
+        // don't add string indices to arrays (unless you have to)
         result.damageText = minDamage + "-" + maxDamage + " (" + minPercent + " - " + maxPercent + "%)";
         if (p1.moves[i].bp === 0) {
             result.koChanceText = 'nice move';
-        } else if ($.isArray(result)) {
-            // result.koChanceText = (result, p1.moves[i], p2, field.getSide(1), p1.ability === 'Bad Dreams');
         } else {
-            result.koChanceText = getKOChanceText(damageRange, p1.moves[i], p2, field.getSide(1), p1.ability === 'Bad Dreams');
+            result.koChanceText = getKOChanceText(result, p1.moves[i], p2, field.getSide(1), p1.ability === 'Bad Dreams');
         }
         $(resultLocations[0][i].move + " + label").text(p1.moves[i].name.replace("Hidden Power", "HP"));
         $(resultLocations[0][i].damage).text(minPercent + " - " + maxPercent + "%");
@@ -778,15 +780,19 @@ function calculate() {
             highestMaxPercent = maxPercent;
             bestResult = $(resultLocations[0][i].move);
         }
-
         result = damageResults[1][i];
-        minDamage = result.damage[0] * p2.moves[i].hits;
-        maxDamage = result.damage[result.damage.length - 1] * p2.moves[i].hits;
+        damageRange = result.damage || result[0].damage;
+        minDamage = damageRange[0] * p2.moves[i].hits;
+        maxDamage = damageRange[damageRange.length - 1] * p2.moves[i].hits;
         minPercent = Math.floor(minDamage * 1000 / p1.maxHP) / 10;
         maxPercent = Math.floor(maxDamage * 1000 / p1.maxHP) / 10;
+        // don't add string indices to arrays (unless you have to)
         result.damageText = minDamage + "-" + maxDamage + " (" + minPercent + " - " + maxPercent + "%)";
-        result.koChanceText = p2.moves[i].bp === 0 ? 'nice move'
-                : getKOChanceText(result.damage, p2.moves[i], p1, field.getSide(0), p2.ability === 'Bad Dreams');
+        if (p1.moves[i].bp === 0) {
+            result.koChanceText = 'nice move';
+        } else {
+            result.koChanceText = getKOChanceText(result, p2.moves[i], p1, field.getSide(0), p2.ability === 'Bad Dreams');
+        }
         $(resultLocations[1][i].move + " + label").text(p2.moves[i].name.replace("Hidden Power", "HP"));
         $(resultLocations[1][i].damage).text(minPercent + " - " + maxPercent + "%");
         if (maxPercent > highestMaxPercent) {
