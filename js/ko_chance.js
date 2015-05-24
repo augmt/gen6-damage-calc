@@ -1,4 +1,5 @@
-function getKOChanceText(damage, move, defender, field, isBadDreams) {
+function getKOChanceText(result, move, defender, field, isBadDreams) {
+    var damage = result.damage || result[0].damage;
     if (isNaN(damage[0])) {
         return 'something broke; please tell Honko';
     }
@@ -146,7 +147,9 @@ function getKOChanceText(damage, move, defender, field, isBadDreams) {
     afterText = hazardText.length > 0 || eotText.length > 0 ? ' after ' + serializeText(hazardText.concat(eotText)) : '';
     var i;
     for (i = 2; i <= 4; i++) {
-        c = getKOChance(damage, defender.curHP - hazards, eot, i, defender.maxHP, toxicCounter);
+        // store typeof result.damage to a variable
+        if (typeof result.damage === "undefined") result.totalHits = i;
+        c = getKOChance(damage, defender.curHP - hazards, eot, i, defender.maxHP, toxicCounter, result);
         if (c === 1) {
             return 'guaranteed ' + i + 'HKO' + afterText;
         } else if (c > 0) {
@@ -155,9 +158,20 @@ function getKOChanceText(damage, move, defender, field, isBadDreams) {
     }
 
     for (i = 5; i <= 9; i++) {
-        if (predictTotal(damage[0], eot, i, toxicCounter, defender.maxHP) >= defender.curHP - hazards) {
+        var minDamage, maxDamage;
+        if (typeof result.damage === "undefined") {
+            minDamage = [], maxDamage = [];
+            for (var j = 0; j < i; j++) {
+                minDamage.push(result[Math.min(j, result.length - 1)].damage[0]);
+                maxDamage.push(result[Math.min(j, result.length - 1)].damage[result[0].damage.length - 1]);
+            }
+        } else {
+            minDamage = damage[0];
+            maxDamage = damage[damage.length - 1];
+        }
+        if (predictTotal(minDamage, eot, i, toxicCounter, defender.maxHP) >= defender.curHP - hazards) {
             return 'guaranteed ' + i + 'HKO' + afterText;
-        } else if (predictTotal(damage[damage.length-1], eot, i, toxicCounter, defender.maxHP) >= defender.curHP - hazards) {
+        } else if (predictTotal(maxDamage, eot, i, toxicCounter, defender.maxHP) >= defender.curHP - hazards) {
             return 'possible ' + i + 'HKO' + afterText;
         }
     }
@@ -165,11 +179,18 @@ function getKOChanceText(damage, move, defender, field, isBadDreams) {
     return 'possibly the worst move ever';
 }
 
-function getKOChance(damage, hp, eot, hits, maxHP, toxicCounter) {
-    var n = damage.length;
-    var minDamage = damage[0];
-    var maxDamage = damage[n-1];
-    var i;
+function getKOChance(damage, hp, eot, hits, maxHP, toxicCounter, result) {
+    var i, minDamage, maxDamage, n = damage.length;
+    if (result && result.totalHits && hits > 1) {
+        minDamage = [], maxDamage = [];
+        for (i = 0; i < hits; i++) {
+            minDamage.push(result[Math.min(i, result.length - 1)].damage[0]);
+            maxDamage.push(result[Math.min(i, result.length - 1)].damage[n - 1]);
+        }
+    } else {
+        minDamage = damage[0];
+        maxDamage = damage[n-1];
+    }
     if (hits === 1) {
         if (maxDamage < hp) {
             return 0;
@@ -192,7 +213,8 @@ function getKOChance(damage, hp, eot, hits, maxHP, toxicCounter) {
     }
     var sum = 0;
     for (i = 0; i < n; i++) {
-        var c = getKOChance(damage, hp - damage[i] + eot - toxicDamage, eot, hits - 1, maxHP, toxicCounter);
+        var newDamage = result.totalHits ? result[Math.min(result.totalHits - (hits - 1), result.length - 1)].damage : damage;
+        var c = getKOChance(newDamage, hp - damage[i] + eot - toxicDamage, eot, hits - 1, maxHP, toxicCounter, result);
         if (c === 1) {
             sum += (n-i);
             break;
@@ -204,13 +226,20 @@ function getKOChance(damage, hp, eot, hits, maxHP, toxicCounter) {
 }
 
 function predictTotal(damage, eot, hits, toxicCounter, maxHP) {
-    var toxicDamage = 0;
+    var total = 0, toxicDamage = 0;
     if (toxicCounter > 0) {
         for (var i = 0; i < hits-1; i++) {
             toxicDamage += Math.floor((toxicCounter + i) * maxHP / 16);
         }
     }
-    var total = (damage * hits) - (eot * (hits - 1)) + toxicDamage;
+    if ($.isArray(damage)) {
+        for (var i = 0; i < damage.length; i++) {
+            total += damage[i] - eot;
+        }
+        total += eot + toxicDamage;
+    } else {
+        total = (damage * hits) - (eot * (hits - 1)) + toxicDamage;
+    }
     return total;
 }
 

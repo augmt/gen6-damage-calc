@@ -891,17 +891,21 @@ function addToData(data, forme, setOption, attacker, defender, field, defenderSi
     if (autoWeatherAbilities.indexOf(attacker.ability) > -1 && defenderSide.weather !== field.getWeather()) {
         defenderSide.weather = field.getWeather();
     }
-    var result, minDamage, maxDamage, minPercent, maxPercent, i;
+    var result, damageRange, minDamage, maxDamage, minPercent, maxPercent, i;
     var highestMaxPercent = -1
     var n = data.length - 1;
     for (i = 0; i < 4; i++) {
         result = damageResults[0][i];
-        minDamage = result.damage[0] * attacker.moves[i].hits;
-        maxDamage = result.damage[result.damage.length - 1] * attacker.moves[i].hits;
+        damageRange = result.damage || result[0].damage;
+        minDamage = damageRange[0] * attacker.moves[i].hits;
+        maxDamage = damageRange[damageRange.length - 1] * attacker.moves[i].hits;
         minPercent = Math.floor(minDamage * 1000 / defender.maxHP) / 10;
         maxPercent = Math.floor(maxDamage * 1000 / defender.maxHP) / 10;
-        result.koChanceText = attacker.moves[i].bp === 0 ? 'nice move'
-                : getKOChanceText(result.damage, attacker.moves[i], defender, defenderSide, attacker.ability === 'Bad Dreams');
+        if (attacker.moves[i].bp === 0) {
+            result.koChanceText = 'nice move';
+        } else {
+            result.koChanceText = getKOChanceText(result, attacker.moves[i], defender, defenderSide, attacker.ability === 'Bad Dreams');
+        }
         if (maxPercent > highestMaxPercent) {
             highestMaxPercent = maxPercent;
             while (data[n].length > 2) {

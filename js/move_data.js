@@ -658,7 +658,8 @@ var MOVES_ADV = $.extend(true, {}, MOVES_GSC, {
     'Overheat': {
         bp: 140,
         category: 'Special',
-        type: 'Fire'
+        type: 'Fire',
+        modifies: 'sa'
     },
     'Poison Fang': {
         bp: 50,
@@ -671,7 +672,8 @@ var MOVES_ADV = $.extend(true, {}, MOVES_GSC, {
     'Psycho Boost': {
         bp: 140,
         category: 'Special',
-        type: 'Psychic'
+        type: 'Psychic',
+        modifies: 'sa'
     },
     'Revenge': {
         bp: 120,
@@ -727,7 +729,8 @@ var MOVES_ADV = $.extend(true, {}, MOVES_GSC, {
         bp: 120,
         category: 'Physical',
         makesContact: true,
-        type: 'Fighting'
+        type: 'Fighting',
+        modifies: 'at'
     },
     'Volt Tackle': {
         bp: 120,
@@ -876,7 +879,8 @@ var MOVES_DPP = $.extend(true, {}, MOVES_ADV, {
     'Draco Meteor': {
         bp: 140,
         category: 'Special',
-        type: 'Dragon'
+        type: 'Dragon',
+        modifies: 'sa'
     },
     'Dragon Pulse': {
         bp: 90,
@@ -1048,7 +1052,8 @@ var MOVES_DPP = $.extend(true, {}, MOVES_ADV, {
     'Leaf Storm': {
         bp: 140,
         category: 'Special',
-        type: 'Grass'
+        type: 'Grass',
+        modifies: 'sa'
     },
     'Magma Storm': {
         bp: 120,
@@ -1260,7 +1265,8 @@ var MOVES_BW = $.extend(true, {}, MOVES_DPP, {
         category: 'Special',
         hasSecondaryEffect: true,
         isBullet: true,
-        type: 'Poison'
+        type: 'Poison',
+        modifies: 'sd'
     },
     'Acrobatics': {
         bp: 55,
@@ -1750,7 +1756,8 @@ var MOVES_XY = $.extend(true, {}, MOVES_BW, {
         hasSecondaryEffect: true,
         isPunch: true,
         makesContact: true,
-        type: 'Fighting'
+        type: 'Fighting',
+        modifies: 'at'
     },
     'Precipice Blades': {
         bp: 120,
