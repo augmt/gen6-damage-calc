@@ -785,7 +785,7 @@ function calculate() {
         minPercent = Math.floor(minDamage * 1000 / p1.maxHP) / 10;
         maxPercent = Math.floor(maxDamage * 1000 / p1.maxHP) / 10;
         result.damageText = minDamage + "-" + maxDamage + " (" + minPercent + " - " + maxPercent + "%)";
-        if (p1.moves[i].bp === 0) {
+        if (p2.moves[i].bp === 0) {
             result.koChanceText = 'nice move';
         } else {
             result.koChanceText = getKOChanceText(result, p2.moves[i], p1, field.getSide(0), p2.ability === 'Bad Dreams');
