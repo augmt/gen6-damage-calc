@@ -142,8 +142,14 @@ function setHiddenPowerIVs(type, selectedMoves, pokeObj) {
     }
 }
 
-function setHiddenPowerDVs() {
-    // no-op for now
+function setHiddenPowerDVs(type, pokeObj) {
+    var dv;
+    var HPDVs = typeChart[type].HPivs; // HPivs is not a typo
+    for (dv in HPDVs) {
+        if (HPDVs.hasOwnProperty(dv)) {
+            pokeObj.find('.' + dv + ' .dvs').val(HPDVs[dv] / 2);
+        }
+    }
 }
 
 function setEVsAndIVs(moveObj, move, moveName, fullSetName, previousMoveCategory) {
@@ -158,14 +164,26 @@ function setEVsAndIVs(moveObj, move, moveName, fullSetName, previousMoveCategory
     counter = pokeObj.data('counter');
     // set Hidden Power IVs
     if (moveName.indexOf('Hidden Power') > -1) {
-        setHiddenPowerIVs(move.type, selectedMoves, pokeObj);
+        if (gen !== 2) {
+            setHiddenPowerIVs(move.type, selectedMoves, pokeObj);
+        } else {
+            setHiddenPowerDVs(move.type, pokeObj);
+        }
     } else if (previousMoveName && previousMoveName.indexOf('Hidden Power') > -1) {
         if (selectedMoves.indexOf('Hidden Power') > -1) {
             index = selectedMoves.lastIndexOf('Hidden Power') + 13;
             HPType = selectedMoves.substr(index, selectedMoves.length - index).split(',')[0];
-            setHiddenPowerIVs(HPType, selectedMoves, pokeObj);
+            if (gen !== 2) {
+                setHiddenPowerIVs(HPType, selectedMoves, pokeObj);
+            } else {
+                setHiddenPowerDVs(HPType, pokeObj);
+            }
         } else {
-            setHiddenPowerIVs('Dark', selectedMoves, pokeObj);
+            if (gen !== 2) {
+                setHiddenPowerIVs('Dark', selectedMoves, pokeObj);
+            } else {
+                setHiddenPowerDVs('Dark', pokeObj);
+            }
         }
     }
     // set Gyro Ball / Trick Room IVs
@@ -180,7 +198,7 @@ function setEVsAndIVs(moveObj, move, moveName, fullSetName, previousMoveCategory
             pokeObj.find('.sp .ivs').val('31');
         }
     }
-    if (setName !== 'Blank Set') {
+    if (gen === 6 && setName !== 'Blank Set') {
         // increment / decrement the counter
         if (moveName !== '(No Move)' && (previousMoveCategory !== move.category || previousMoveName === '(No Move)')) {
             if (move.category === 'Special') {
@@ -265,7 +283,7 @@ $(".move-selector").change(function () {
     var fullSetName, previousMoveCategory;
     moveGroupObj.children(".move-bp").val(move.bp);
     moveGroupObj.children(".move-type").val(move.type);
-    if (gen > 2) {
+    if (gen > 1) {
         fullSetName = $(this).closest('.poke-info').find('.set-selector .select2-chosen').text();
         if (fullSetName) {
             previousMoveCategory = moveGroupObj.children(".move-cat").val();
@@ -568,6 +586,18 @@ $(".gen").change(function () {
         abilities = [];
         STATS = STATS_RBY;
         calculateAllMoves = CALCULATE_ALL_MOVES_RBY;
+        calcHP = CALC_HP_RBY;
+        calcStat = CALC_STAT_RBY;
+        break;
+    case 2:
+        pokedex = POKEDEX_GSC;
+        randdex = RANDDEX_GSC;
+        typeChart = TYPE_CHART_GSC;
+        moves = MOVES_GSC;
+        items = ITEMS_GSC;
+        abilities = [];
+        STATS = STATS_GSC;
+        calculateAllMoves = CALCULATE_ALL_MOVES_GSC;
         calcHP = CALC_HP_RBY;
         calcStat = CALC_STAT_RBY;
         break;
