@@ -498,6 +498,7 @@ $(".set-selector").change(function () {
             for (i = 0; i < STATS.length; i++) {
                 pokeObj.find("." + STATS[i] + " .evs").val(0);
             }
+            itemObj.val("");
         }
         pokeObj.find(".hp .ivs").val(31);
         pokeObj.find(".hp .dvs").val(15);
