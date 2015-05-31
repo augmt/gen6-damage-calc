@@ -487,6 +487,11 @@ $(".set-selector").change(function () {
             for (i = 0; i < STATS.length; i++) {
                 pokeObj.find("." + STATS[i] + " .evs").val((gen > 2) ? set.evs[STATS[i]] : 0);
             }
+            if (typeof set.item === "undefined") {
+                itemObj.val("");
+            } else {
+                itemObj.val(set.item);
+            }
         } else {
             pokeObj.find(".level").val(100);
             pokeObj.find(".hp .evs").val(0);
@@ -500,8 +505,10 @@ $(".set-selector").change(function () {
             pokeObj.find("." + STATS[i] + " .ivs").val(31);
             pokeObj.find("." + STATS[i] + " .dvs").val(15);
         }
+        if (gen === 2 && pokemonName === "Marowak") {
+            pokeObj.find(".at .dvs").val(13);
+        }
         abilityObj.val(abilities.indexOf(pokemon.ab) > -1 ? pokemon.ab : "");
-        itemObj.val("");
         for (i = 0; i < 4; i++) {
             moveObj = pokeObj.find(".move" + (i + 1) + " select.move-selector");
             moveObj.removeData("move-name");
