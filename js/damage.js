@@ -104,6 +104,10 @@ function getDamageResult(attacker, defender, move, field) {
         description.defenderAbility = defAbility;
         return {"damage":[0], "description":buildDescription(description)};
     }
+    if (field.weather === "Strong Winds" && (defender.type1 === "Flying" || defender.type2 === "Flying") && TYPE_CHART_XY[move.type].Flying > 1) {
+        typeEffectiveness /= 2;
+        description.weather = field.weather;
+    }
     if (move.type === "Ground" && !field.isGravity && defender.item === "Air Balloon") {
         description.defenderItem = defender.item;
         return {"damage":[0], "description":buildDescription(description)};
@@ -311,6 +315,14 @@ function getDamageResult(attacker, defender, move, field) {
         }
     }
     
+    if ((field.weather.indexOf("Sun") > -1 && move.type === "Fire") || (field.weather.indexOf("Rain") > -1 && move.type === "Water")) {
+        bpMods.push(0x1800);
+        description.weather = field.weather;
+    } else if ((field.weather === "Sun" && move.type === "Water") || (field.weather === "Rain" && move.type === "Fire")) {
+        bpMods.push(0x800);
+        description.weather = field.weather;
+    }
+    
     basePower = Math.max(1, pokeRound(basePower * chainMods(bpMods) / 0x1000));
     
     ////////////////////////////////
@@ -433,15 +445,6 @@ function getDamageResult(attacker, defender, move, field) {
     var baseDamage = Math.floor(Math.floor((Math.floor((2 * attacker.level) / 5 + 2) * basePower * attack) / defense) / 50 + 2);
     if (field.format !== "Singles" && move.isSpread) {
         baseDamage = pokeRound(baseDamage * 0xC00 / 0x1000);
-    }
-    if ((field.weather.indexOf("Sun") > -1 && move.type === "Fire") || (field.weather.indexOf("Rain") > -1 && move.type === "Water")) {
-        baseDamage = pokeRound(baseDamage * 0x1800 / 0x1000);
-        description.weather = field.weather;
-    } else if ((field.weather === "Sun" && move.type === "Water") || (field.weather === "Rain" && move.type === "Fire") ||
-               (field.weather === "Strong Winds" && (defender.type1 === "Flying" || defender.type2 === "Flying") &&
-               TYPE_CHART_XY[move.type]["Flying"] > 1)) {
-        baseDamage = pokeRound(baseDamage * 0x800 / 0x1000);
-        description.weather = field.weather;
     }
     if (field.isGravity || (attacker.type1 !== "Flying" && attacker.type2 !== "Flying" &&
                 attacker.item !== "Air Balloon" && attacker.ability !== "Levitate")) {
