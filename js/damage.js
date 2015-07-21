@@ -667,6 +667,7 @@ function getModifiedDamage(attacker, defender, move, field, callback) {
         attackerCopy.boosts[AT]++;
         attackerCopy.stats[AT] = getModifiedStat(attackerCopy.rawStats[AT], attackerCopy.boosts[AT]);
     } else {
+        // Overheat, Psycho Boost, Draco Meteor, Leaf Storm
         attackerCopy.boosts[SA] -= 2;
         attackerCopy.stats[SA] = getModifiedStat(attackerCopy.rawStats[SA], attackerCopy.boosts[SA]);
     }
