@@ -8,6 +8,8 @@ function getKOChanceText(result, move, defender, field, isBadDreams) {
             return 'the Water-Type attack evaporated in the harsh sunlight';
         } else if (field.weather === "Heavy Rain" && move.type === "Fire") {
             return 'the Fire-Type attack fizzled out in the heavy rain';
+        } else if (move.name === 'Hyperspace Fury') {
+            return 'only Hoopa-Unbound can use this move';
         }
         return 'aim for the horn next time';
     }
