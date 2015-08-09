@@ -440,6 +440,11 @@ function getDamageResult(attacker, defender, move, field) {
         description.defenderItem = defender.item;
     }
     
+    if (defAbility === "Fur Coat" && hitsPhysical) {
+        dfMods.push(0x2000);
+        description.defenderAbility = defAbility;
+    }
+
     defense = Math.max(1, pokeRound(defense * chainMods(dfMods) / 0x1000));
     
     ////////////////////////////////
@@ -519,10 +524,6 @@ function getDamageResult(attacker, defender, move, field) {
             attacker.ability !== "Unnerve") {
         finalMods.push(0x800);
         description.defenderItem = defender.item;
-    }
-    if (defAbility === "Fur Coat" && hitsPhysical) {
-        finalMods.push(0x800);
-        description.defenderAbility = defAbility;
     }
     var finalMod = chainMods(finalMods);
     
